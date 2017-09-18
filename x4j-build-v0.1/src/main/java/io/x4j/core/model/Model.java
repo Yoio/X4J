@@ -13,29 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.yoio.app.controller;
+package io.x4j.core.model;
 
-import java.io.IOException;
-import java.util.Arrays;
+/**
+ * Model层接口
+ * 
+ * @author Yoio
+ *
+ */
+public interface Model {
+	/**
+	 * 设置属性
+	 * 
+	 * @param key
+	 * @param value
+	 */
+	public void addAttribute(String key, Object value);
 
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import com.yoio.app.entity.User;
-
-import io.x4j.core.model.Model;
-
-public class IndexController {
-	public void index(HttpServletResponse response, HttpSession session) {
-
-	}
-
-	public String get(int[] id,Model model) {
-		model.addAttribute("ids", Arrays.toString(id));
-		return "/WEB-INF/a.jsp";
-	}
-
-	public void login(HttpServletResponse response, HttpSession session, User user) throws IOException {
-
-	}
+	/**
+	 * 获取属性
+	 * 
+	 * @param key
+	 * @return
+	 */
+	public Object getAttribute(String key);
 }

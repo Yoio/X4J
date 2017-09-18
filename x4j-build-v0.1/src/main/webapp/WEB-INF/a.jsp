@@ -8,5 +8,6 @@
 </head>
 <body>
 	<h1>Hello X4J!</h1>
+	${ids }
 </body>
 </html>

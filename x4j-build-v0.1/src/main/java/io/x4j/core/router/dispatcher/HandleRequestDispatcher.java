@@ -26,6 +26,8 @@ import io.x4j.core.config.Config;
 import io.x4j.core.config.ConfigFactory;
 import io.x4j.core.global.Constants;
 import io.x4j.core.global.Constants.HTTP_METHOD;
+import io.x4j.core.model.Model;
+import io.x4j.core.model.ModelAndView;
 import io.x4j.core.router.CommonHttpRouter;
 import io.x4j.core.router.HoldRequestChain;
 import io.x4j.core.router.RequestContext;
@@ -67,9 +69,20 @@ public class HandleRequestDispatcher implements Dispatcher {
 
 		loadParametersObjectsToContext(context, req);
 
+		loadModelInstance(context);
 		DispatherMapper dispatherMapper = new DispatherMapper(router, mapperParser);
 		dispatherMapper.doDispather();
 
+	}
+
+	/**
+	 * 加载Model实例到上下文环境
+	 * 
+	 * @param context
+	 */
+	private void loadModelInstance(RequestContext context) {
+		Model model = new ModelAndView();
+		context.registerContextObject(Model.class.getName(), model);
 	}
 
 	/**
@@ -86,16 +99,16 @@ public class HandleRequestDispatcher implements Dispatcher {
 			String key = (String) keysIt.next();
 			String[] value = params.get(key);
 			if (Constants.NUMBER.ONE == value.length) {
-				
+
 				String paraValue = value[Constants.NUMBER.ZERO];
-				//兼容参数绑定方案，字符串null生成空对象
-				if(Constants.COMMON_ICON.STRINGNULL.equals(paraValue)){
+				// 兼容参数绑定方案，字符串null生成空对象
+				if (Constants.COMMON_ICON.STRINGNULL.equals(paraValue)) {
 					paraValue = Constants.COMMON_ICON.NULL;
 				}
-				
+
 				context.getContextObjs().put(key, paraValue);
 			} else {
-				//集合参数处理装载
+				// 集合参数处理装载
 				context.getContextObjs().put(key, StringUtils.stringArray2String(value));
 			}
 		}
